@@ -1,0 +1,13 @@
+# Ignore dependencies/codemirror-5.65.13/...
+dependencies/codemirror-5.65.13/node_modules
+dependencies/codemirror-5.65.13/demo
+dependencies/codemirror-5.65.13/doc
+dependencies/codemirror-5.65.13/index.html
+dependencies/codemirror-5.65.13/mode/*/*test.js
+dependencies/codemirror-5.65.13/mode/*/*.html
+dependencies/codemirror-5.65.13/mode/index.html
+dependencies/codemirror-5.65.13/.*
+dependencies/codemirror-5.65.13/bin/authors.sh
+dependencies/codemirror-5.65.13/bin/lint
+dependencies/codemirror-5.65.13/bin/release
+dependencies/codemirror-5.65.13/bin/upload-release.js
