@@ -26,12 +26,55 @@
     <body>
         <div class="container">
             <header>
+                <h1>Online Code Editor</h1>
             </header>
 
             <main>
+                <div class="main-container">
+                    <div class="editor">
+                        <div class="editor-options">
+                            <select name="language" id="language">
+                                <option value="" selected disabled hidden>Select an Language:</option>
+                                <option value="c">C</option>
+                                <option value="cpp">C++</option>
+                                <option value="java">Java</option>
+                                <option value="python">Python</option>
+                                <option value="javascript">Javascript</option>
+                            </select>
+                            <select name="theme" id="theme">
+                                <option value="" selected disabled hidden>Select a theme:</option>
+                                <option value="dracula">Dracula</option>
+                                <option value="ambiance">Ambiance</option>
+                                <option value="blackboard">Blackboard</option>
+                                <option value="midnight">Midnight</option>
+                                <option value="neo">Neo</option>
+                                <option value="paraiso-dark">Paraiso Dark</option>
+                                <option value="paraiso-light">Paraiso Light</option>
+                                <option value="rubyblue">Rubyblue</option>
+                                <option value="solarized">Solarized</option>
+                                <option value="the-matrix">The Matrix</option>
+                                <option value="twilight">Twilight</option>
+                                <option value="xq-dark">Xq Dark</option>
+                                <option value="xq-light">Xq Light</option>
+                            </select>
+                        </div>
+                        <textarea name="code-area" id="code-editor"></textarea>
+                    </div>
+                    <div class="input-output">
+                        <div class="result-box">
+                            <label for="input">Input</label>
+                            <textarea name="input" id="input"></textarea>
+                        </div>
+                        <div class="result-box">
+                            <label for="output">Output</label>
+                            <textarea name="output" id="output"></textarea>
+                        </div>
+                    </div>
+                </div>
             </main>
             
             <footer>
+                <p><span class="footer">Made by <a href="https://github.com/iamwatchdogs" title="Goto @iamwatchdogs" target="_blank">Shamith</a>.</span></p>
             </footer>
         </div>
         <script src="script.js"></script>
