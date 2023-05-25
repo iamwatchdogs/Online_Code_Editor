@@ -30,7 +30,20 @@ document.head.appendChild(modeScriptTag);
 let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     theme: selectedTheme,
     lineWrapping: true,
-    lineNumbers: true
+    lineNumbers: true,
+    extraKeys: {
+        "Ctrl-/": "toggleComment"
+    },
+    addons: ["comment/comment.js"],
+    comment: {
+        lineComment: "//",
+        blockCommentStart: "/*",
+        blockCommentEnd: "*/",
+        padding: " ",
+        commentBlankLines: false,
+        indent: false,
+        fullLines: true
+    }
 });
 editor.setSize('1378px', '645px');
 
