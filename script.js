@@ -73,8 +73,9 @@ languageSelect.addEventListener('change', () => {
     let selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
 
-    // Turning autoCloseBrackets functionality
+    // Turning on functionality
     editor.setOption('autoCloseBrackets', true);
+    editor.setOption('matchBrackets', true);
 
     // Routing between C and C++ code highlighting
     if(selectedMode == 'c' || selectedMode == 'cpp'){
