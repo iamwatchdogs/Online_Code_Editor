@@ -56,21 +56,37 @@ const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
 
 themeSelect.addEventListener('change', () => {
+
+    // Reading values into variables
     selectedTheme = themeSelect.value;
+
+    // dynamically assigning the required css for theme
     themeLinkTag.href = `dependencies/codemirror-5.65.13/theme/${selectedTheme}.css`;
+
+    // Setting the theme of the editor
     editor.setOption('theme', selectedTheme);   
 });
 
 languageSelect.addEventListener('change', () => {
+
+    // Reading values into variables
     let selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
+
+    // Turning autoCloseBrackets functionality
     editor.setOption('autoCloseBrackets', true);
+
+    // Routing between C and C++ code highlighting
     if(selectedMode == 'c' || selectedMode == 'cpp'){
         selectedMode = 'clike';
         codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : `text/x-c++src`;
     }
+
+    // Setting the mode of the editor after the <script> tag is completely loaded
     modeScriptTag.onload = () => {
         editor.setOption('mode', codeMirrorMode);
     };
+
+    // dynamically assigning the required language highlighting
     modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${selectedMode}/${selectedMode}.js`;
 });
