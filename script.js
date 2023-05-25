@@ -33,3 +33,30 @@ let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     lineNumbers: true
 });
 editor.setSize('1378px', '645px');
+
+
+// -------------------------------------------------
+//          Dynamically changing values
+// -------------------------------------------------
+
+const themeSelect = document.getElementById('theme');
+const languageSelect = document.getElementById('language');
+
+themeSelect.addEventListener('change', () => {
+    selectedTheme = themeSelect.value;
+    themeLinkTag.href = `dependencies/codemirror-5.65.13/theme/${selectedTheme}.css`;
+    editor.setOption('theme', selectedTheme);   
+});
+
+languageSelect.addEventListener('change', () => {
+    let selectedMode = languageSelect.value;
+    let codeMirrorMode = `text/x-${selectedMode}`;
+    if(selectedMode == 'c' || selectedMode == 'cpp'){
+        selectedMode = 'clike';
+        codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : `text/x-c++src`;
+    }
+    modeScriptTag.onload = () => {
+        editor.setOption('mode', codeMirrorMode);
+    };
+    modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${selectedMode}/${selectedMode}.js`;
+});
