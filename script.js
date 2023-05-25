@@ -64,6 +64,7 @@ themeSelect.addEventListener('change', () => {
 languageSelect.addEventListener('change', () => {
     let selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
+    editor.setOption('autoCloseBrackets', true);
     if(selectedMode == 'c' || selectedMode == 'cpp'){
         selectedMode = 'clike';
         codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : `text/x-c++src`;
