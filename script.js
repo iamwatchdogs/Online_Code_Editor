@@ -32,6 +32,7 @@ let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     lineWrapping: true,
     lineNumbers: true,
     scrollbarStyle: 'overlay',
+    showCursorWhenSelecting: true,
     extraKeys: {
         "Ctrl-/": "toggleComment"
     },
