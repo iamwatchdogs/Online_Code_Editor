@@ -78,9 +78,6 @@ footer {
     flex-direction: column;
     justify-content: space-around;
 }
-.input-output{
-    flex-direction: column-reverse;
-}
 .result-box{
     width: 100%;
     padding-top: 0;
@@ -174,6 +171,7 @@ label {
     height: 7vh;
     display: flex;
     justify-content: space-around;
+    order: 1;
 }
 button {
     width: 10vw;
@@ -191,4 +189,10 @@ button:hover {
 }
 #input:enabled {
     background-color: rgba(105, 188, 255, 0.562);
+}
+.input-box {
+    order: 2;
+}
+.output-box{
+    order: 3;
 }
