@@ -48,7 +48,7 @@ let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
         fullLines: true
     }
 });
-editor.setSize('1378px', '645px');
+editor.setSize('70vw', '65vh');
 
 
 // -------------------------------------------------
