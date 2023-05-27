@@ -13,6 +13,7 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+    transition: color .35s ease-in-out;
 }
 a:hover{
     color: #ff2f89;
@@ -163,4 +164,24 @@ label {
 }
 .result-box textarea {
     resize: none;
+}
+.buttons {
+    width: 100%;
+    height: 7vh;
+    display: flex;
+    justify-content: space-around;
+}
+button {
+    width: 10vw;
+    background-color: rgba(245, 245, 245, 0.329);
+    border-radius: 15px;
+    font-weight: bolder;
+    font-size: 1rem;
+    font-family: 'Comfortaa', cursive;
+    transition: background-color .35s ease-in-out,
+                color .35s ease-in-out;
+}
+button:hover {
+    background-color: rgba(0, 255, 255, 0.267);
+    color: whitesmoke;
 }
