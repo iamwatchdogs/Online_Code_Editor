@@ -46,7 +46,7 @@
             </header>
 
             <main>
-                <form class="main-container" action="/" method="post">
+                <form class="main-container" action="https://httpbin.org/post" method="post">
                     <div class="editor">
                         <div class="editor-options">
                             <div class="select">
@@ -81,10 +81,6 @@
                         <textarea name="code-area" id="code-editor"></textarea>
                     </div>
                     <div class="input-output">
-                        <div class="buttons">
-                            <button type="submit" id="run">Run</button>
-                            <button type="reset" id="reset">Reset</button>
-                        </div>
                         <div class="result-box">
                             <label for="input">Input</label>
                             <textarea name="input" id="input" disabled></textarea>
@@ -92,6 +88,10 @@
                         <div class="result-box">
                             <label for="output">Output</label>
                             <textarea name="output" id="output" disabled></textarea>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" id="run">Run</button>
+                            <button type="reset" id="reset">Reset</button>
                         </div>
                     </div>
                 </form>
