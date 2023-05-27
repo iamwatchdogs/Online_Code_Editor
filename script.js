@@ -73,7 +73,7 @@ themeSelect.addEventListener('change', () => {
 languageSelect.addEventListener('change', () => {
 
     // Reading values into variables
-    let selectedMode = languageSelect.value;
+    let mode = selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
 
     // Turning on functionality
@@ -81,11 +81,11 @@ languageSelect.addEventListener('change', () => {
     editor.setOption('matchBrackets', true);
 
     // Routing between C and C++ code highlighting
-    if(selectedMode == 'c' || selectedMode == 'cpp'){
-        selectedMode = 'clike';
-        codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : `text/x-c++src`;
+    if(selectedMode == 'c' || selectedMode == 'cpp' || selectedMode == 'java'){
+        mode = 'clike';
+        codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : (selectedMode == 'cpp') ? `text/x-c++src` : `text/x-java`;
     } else if(selectedMode == 'javascript'){
-        codeMirrorMode = selectedMode;
+        codeMirrorMode = mode;
     }
 
     // Setting the mode of the editor after the <script> tag is completely loaded
@@ -94,5 +94,5 @@ languageSelect.addEventListener('change', () => {
     };
 
     // dynamically assigning the required language highlighting
-    modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${selectedMode}/${selectedMode}.js`;
+    modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${mode}/${mode}.js`;
 });
