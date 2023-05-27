@@ -26,6 +26,7 @@ header{
     font-size: 1.8rem;
     font-weight: bolder;
     font-family: 'Cherry Bomb One', cursive;
+    color: black;
     -webkit-text-stroke: 0.05px whitesmoke;
 }
 footer {
@@ -187,4 +188,7 @@ button {
 button:hover {
     background-color: rgba(0, 255, 255, 0.267);
     color: whitesmoke;
+}
+#input:enabled {
+    background-color: rgba(105, 188, 255, 0.562);
 }

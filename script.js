@@ -96,3 +96,32 @@ languageSelect.addEventListener('change', () => {
     // dynamically assigning the required language highlighting
     modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${mode}/${mode}.js`;
 });
+
+// -------------------------------------------------
+//          Toggling Input Text Area
+// -------------------------------------------------
+
+// global variables
+let inputEnabled = false;
+
+// Regex to check for input statements
+const regex = {
+    'c': /(scanf|getchar|gets|fgets|getc|fgetc|fscanf|sscanf|scanf_s|getch|getche|kbhit) *\(.*\) *;/,
+    'cpp': /(cin|((scanf|getchar|gets|fgets|getc|fgetc|fscanf|sscanf|scanf_s|getch|getche|kbhit|getline) *\(.*\) *;))/,
+    'java': /(System.(in|console *\( *\) *;)|read|args *\[ *\w *\])/,
+    'python': /(input|getpass|read) *\(.*\)|sys.argv *\[ *\w *]/,
+    'javascript': /prompt *\(.*\)|process\.argv *\[ *\w *\]|.*\.value|read|fetch/
+};
+
+// Adding event listener to toggle input textarea based on the presense of input statements
+editor.on('change', () => {
+    let code = editor.getValue();
+    let language = selectedMode;
+
+    // Checking if the code has any input statements
+    if(language != null && regex[language].test(code)){
+        document.getElementById('input').disabled = false;
+    } else {
+        document.getElementById('input').disabled = true;
+    }
+});
