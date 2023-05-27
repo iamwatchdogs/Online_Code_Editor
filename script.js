@@ -84,6 +84,8 @@ languageSelect.addEventListener('change', () => {
     if(selectedMode == 'c' || selectedMode == 'cpp'){
         selectedMode = 'clike';
         codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : `text/x-c++src`;
+    } else if(selectedMode == 'javascript'){
+        codeMirrorMode = selectedMode;
     }
 
     // Setting the mode of the editor after the <script> tag is completely loaded
