@@ -80,8 +80,10 @@ languageSelect.addEventListener('change', () => {
     if (selectedMode === 'c' || selectedMode === 'cpp' || selectedMode === 'java') {
       codeMirrorMode = (selectedMode === 'c') ? 'text/x-csrc' : (selectedMode === 'cpp') ? 'text/x-c++src' : 'text/x-java';
       selectedMode = 'clike';
-    } else if (selectedMode === 'javascript') {
-      codeMirrorMode = selectedMode;
+    } else if (selectedMode === 'js') {
+      codeMirrorMode = selectedMode ='javascript';
+    } else if (selectedMode === 'py') {
+      codeMirrorMode = selectedMode = 'python';
     }
   
     // Dynamically load the script only if it hasn't been loaded before
@@ -109,7 +111,6 @@ languageSelect.addEventListener('change', () => {
         // Script has already been loaded, update the mode directly
         modeScriptTag.onload = () => {
             editor.setOption('mode', codeMirrorMode);
-            console.log('set option');
         };
     }
 
@@ -128,8 +129,8 @@ const regex = {
     'c': /(scanf|getchar|gets|fgets|getc|fgetc|fscanf|sscanf|scanf_s|getch|getche|kbhit) *\(.*\) *;/,
     'cpp': /(cin|((scanf|getchar|gets|fgets|getc|fgetc|fscanf|sscanf|scanf_s|getch|getche|kbhit|getline) *\(.*\) *;))/,
     'java': /(System.(in|console *\( *\) *;)|read|args *\[ *\w *\])/,
-    'python': /(input|getpass|read) *\(.*\)|sys.argv *\[ *\w *]/,
-    'javascript': /prompt *\(.*\)|process\.argv *\[ *\w *\]|.*\.value|read|fetch/
+    'py': /(input|getpass|read) *\(.*\)|sys.argv *\[ *\w *]/,
+    'js': /prompt *\(.*\)|process\.argv *\[ *\w *\]|.*\.value|read|fetch/
 };
 
 // Adding event listener to toggle input textarea based on the presense of input statements
