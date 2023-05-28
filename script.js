@@ -144,3 +144,15 @@ editor.on('change', () => {
         document.getElementById('input').disabled = true;
     }
 });
+
+// -------------------------------------------------
+//          Validating POST Request
+// -------------------------------------------------
+
+const validate = () => {
+    if(inputEnabled && document.getElementById('input').value === ''){
+        alert('Please enter some input');
+        return false;
+    }
+    return true;
+};
