@@ -46,9 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Safely closing cURL connection.
     curl_close($curl);
 
+    // Converting into JSON format
+    $responseData = json_decode($response, true);
+
+    // Testing the converted respose
+    if ($responseData === null) {
+        echo "Error: Unable to decode response JSON.";
+    }
+
     // Displaying response content.
     echo "<pre>";
-    var_dump($response);
+    var_dump($responseData);
     echo "</pre>";
 }
 ?>
