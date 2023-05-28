@@ -53,7 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($responseData !== null) {
         $responseData['input_code'] = $_POST['code'];
     } else { 
-        echo "Error: Unable to decode response JSON.";
+        $responseData = array(
+            'input_code' => $_POST['code'],
+            'error' => 'Failed'
+        );
     }
 
     // Displaying response content.
