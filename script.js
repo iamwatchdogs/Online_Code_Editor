@@ -73,28 +73,47 @@ themeSelect.addEventListener('change', () => {
 languageSelect.addEventListener('change', () => {
 
     // Reading values into variables
-    let mode = selectedMode = languageSelect.value;
+    selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
-
-    // Turning on functionality
-    editor.setOption('autoCloseBrackets', true);
-    editor.setOption('matchBrackets', true);
-
-    // Routing between C and C++ code highlighting
-    if(selectedMode == 'c' || selectedMode == 'cpp' || selectedMode == 'java'){
-        mode = 'clike';
-        codeMirrorMode =  (selectedMode == 'c') ? `text/x-csrc` : (selectedMode == 'cpp') ? `text/x-c++src` : `text/x-java`;
-    } else if(selectedMode == 'javascript'){
-        codeMirrorMode = mode;
+  
+     // Routing between C, C++, Java & Javascript code highlighting
+    if (selectedMode === 'c' || selectedMode === 'cpp' || selectedMode === 'java') {
+      codeMirrorMode = (selectedMode === 'c') ? 'text/x-csrc' : (selectedMode === 'cpp') ? 'text/x-c++src' : 'text/x-java';
+      selectedMode = 'clike';
+    } else if (selectedMode === 'javascript') {
+      codeMirrorMode = selectedMode;
+    }
+  
+    // Dynamically load the script only if it hasn't been loaded before
+    const scriptSrc = `dependencies/codemirror-5.65.13/mode/${selectedMode}/${selectedMode}.js`;
+  
+    if (!modeScriptTag) {
+        modeScriptTag = document.createElement('script');
+        modeScriptTag.onload = () => {
+          editor.setOption('mode', codeMirrorMode);
+          console.log('set option');
+        };
+        modeScriptTag.onerror = () => {
+          console.log('Error loading script');
+        };
+        document.head.appendChild(modeScriptTag);
+    } else {
+        // Replace the src attribute of the existing script tag
+        modeScriptTag.setAttribute('src', scriptSrc);
+    }
+    
+    // Load the script if it hasn't been loaded yet
+    if (!modeScriptTag.src) {
+       modeScriptTag.src = scriptSrc;
+    } else {
+        // Script has already been loaded, update the mode directly
+        modeScriptTag.onload = () => {
+            editor.setOption('mode', codeMirrorMode);
+            console.log('set option');
+        };
     }
 
-    // Setting the mode of the editor after the <script> tag is completely loaded
-    modeScriptTag.onload = () => {
-        editor.setOption('mode', codeMirrorMode);
-    };
-
-    // dynamically assigning the required language highlighting
-    modeScriptTag.src = `dependencies/codemirror-5.65.13/mode/${mode}/${mode}.js`;
+    selectedMode = languageSelect.value;
 });
 
 // -------------------------------------------------
