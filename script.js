@@ -157,3 +157,42 @@ const validate = () => {
     }
     return true;
 };
+
+// -------------------------------------------------
+//          Handling POST Request
+// -------------------------------------------------
+
+const outputTextArea = document.getElementById('output');
+
+document.getElementById('code').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const requestData = {};
+
+    formData.forEach(function(value, key) {
+        requestData[key] = value;
+    });
+
+    
+    const xhr = new XMLHttpRequest();
+    
+    xhr.open('POST', 'core.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Handle the successful response
+                const response = JSON.parse(xhr.responseText);
+                outputTextArea.style.color ='white';
+                outputTextArea.value = response['output'];
+            } else {
+                // Handle the error response
+                console.error('Request failed with status ' + xhr.status);
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(requestData));
+});

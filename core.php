@@ -3,15 +3,23 @@
 // For handling`POST` Request 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Retrieve the raw POST data
+    $postData = file_get_contents('php://input');
+
+    // Check if the POST data is not empty
+    if (!empty($postData)) {
+
+        // Decode the JSON data
+        $_POST = json_decode($postData, true);
+
+    }
+
     // if there is no input parameter in POST request, we'll pass out empty string.
     if (!isset($_POST['input'])){
         $_POST['input'] = "";
     };
 
-    // Checking content in the POST request
-    echo "<pre>";
-    var_dump($_POST);
-    echo "</pre>";
+    $input_code = $_POST['code'];
     
     // Converting POST request into URL-encoded query string.
     $payload = http_build_query($_POST);
@@ -47,11 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     curl_close($curl);
 
     // Converting into JSON format
-    $responseData = json_decode($response, true);
+    $responseData = json_decode($response,true);
 
     // Testing the converted respose
     if ($responseData !== null) {
-        $responseData['input_code'] = $_POST['code'];
+        $responseData['input_code'] = $input_code;
     } else { 
         $responseData = array(
             'input_code' => $_POST['code'],
@@ -59,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
     }
 
-    // Displaying response content.
-    echo "<pre>";
-    var_dump($responseData);
-    echo "</pre>";
+    header('Content-Type: application/json');
+    echo json_encode($responseData);
 }
 ?>
