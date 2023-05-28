@@ -197,3 +197,41 @@ button:hover {
 .output-box{
     order: 3;
 }
+#input,
+#output {
+    padding: 20px;
+    font-size: 1.25rem;
+    font-family: 'Dosis', sans-serif;
+    font-weight: bold;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+#input::-webkit-scrollbar,
+#output::-webkit-scrollbar{
+    width: 0.75rem;
+}
+#input:hover::-webkit-scrollbar-track,
+#output:hover::-webkit-scrollbar-track{
+    border-radius: 100vw;
+    margin: .5em;
+    transition: all .5s ease-in-out;
+}
+#input::-webkit-scrollbar-track,
+#output::-webkit-scrollbar-track,
+#input:-webkit-scrollbar-thumb,
+#output::-webkit-scrollbar-thumb{
+    background: transparent;
+}
+#input:hover::-webkit-scrollbar-thumb,
+#output:hover::-webkit-scrollbar-thumb{
+    background:rgba(90, 148, 255, 0.815);
+    border-radius: 100vw;
+    transition: all .5s ease-in-out;
+    padding: 15px;
+}
+#input:hover::-webkit-scrollbar-thumb:hover,
+#output:hover::-webkit-scrollbar-thumb:hover,
+#input:hover::-webkit-scrollbar-thumb:active,
+#output:hover::-webkit-scrollbar-thumb:active{
+    background:rgb(68, 133, 255);
+}
