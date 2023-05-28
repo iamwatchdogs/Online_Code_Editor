@@ -50,7 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $responseData = json_decode($response, true);
 
     // Testing the converted respose
-    if ($responseData === null) {
+    if ($responseData !== null) {
+        $responseData['input_code'] = $_POST['code'];
+    } else { 
         echo "Error: Unable to decode response JSON.";
     }
 
