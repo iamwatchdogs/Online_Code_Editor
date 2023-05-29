@@ -143,6 +143,7 @@ editor.on('change', () => {
         document.getElementById('input').disabled = false;
     } else {
         document.getElementById('input').disabled = true;
+        document.getElementById('input').value = '';
     }
 });
 
@@ -166,6 +167,8 @@ const outputTextArea = document.getElementById('output');
 
 document.getElementById('code').addEventListener('submit', (event) => {
     event.preventDefault();
+
+    document.getElementById('output').value = '';
 
     const formData = new FormData(event.target);
     const requestData = {};
