@@ -57,6 +57,7 @@ editor.setSize('70vw', '65vh');
 
 const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
+CodeMirror.modeURL = 'dependencies/codemirror-5.65.13/mode/%N/%N.js';
 
 themeSelect.addEventListener('change', () => {
 
@@ -74,51 +75,25 @@ languageSelect.addEventListener('change', () => {
 
     // Reading values into variables
     selectedMode = languageSelect.value;
-    let codeMirrorMode = `text/x-${selectedMode}`;
 
     // Adding Additional functionality when a mode is selected
     editor.setOption('autoCloseBrackets', true);
     editor.setOption('matchBrackets', true);
   
      // Routing between C, C++, Java & Javascript code highlighting
-    if (selectedMode === 'c' || selectedMode === 'cpp' || selectedMode === 'java') {
-      codeMirrorMode = (selectedMode === 'c') ? 'text/x-csrc' : (selectedMode === 'cpp') ? 'text/x-c++src' : 'text/x-java';
-      selectedMode = 'clike';
-    } else if (selectedMode === 'js') {
-      codeMirrorMode = selectedMode ='javascript';
-    } else if (selectedMode === 'py') {
-      codeMirrorMode = selectedMode = 'python';
-    }
+    const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;
+    const codeMirrormode = CodeMirror.findModeByExtension(selectedMode).mode;
   
     // Dynamically load the script only if it hasn't been loaded before
-    const scriptSrc = `dependencies/codemirror-5.65.13/mode/${selectedMode}/${selectedMode}.js`;
-  
-    if (!modeScriptTag) {
-        modeScriptTag = document.createElement('script');
-        modeScriptTag.onload = () => {
-          editor.setOption('mode', codeMirrorMode);
-          console.log('set option');
-        };
-        modeScriptTag.onerror = () => {
-          console.log('Error loading script');
-        };
-        document.head.appendChild(modeScriptTag);
-    } else {
-        // Replace the src attribute of the existing script tag
-        modeScriptTag.setAttribute('src', scriptSrc);
-    }
-    
-    // Load the script if it hasn't been loaded yet
-    if (!modeScriptTag.src) {
-       modeScriptTag.src = scriptSrc;
-    } else {
-        // Script has already been loaded, update the mode directly
-        modeScriptTag.onload = () => {
-            editor.setOption('mode', codeMirrorMode);
-        };
-    }
+    const scriptSrc = `dependencies/codemirror-5.65.13/mode/${codeMirrormode}/${codeMirrormode}.js`;
 
-    selectedMode = languageSelect.value;
+    // Replace the src attribute of the existing script tag
+    modeScriptTag.setAttribute('src', scriptSrc);
+    
+    // Script has already been loaded, update the mode directly
+    editor.setOption('mode', codeMirrorMIME);
+    CodeMirror.autoLoadMode(editor, codeMirrormode);
+
 });
 
 // -------------------------------------------------
@@ -227,7 +202,8 @@ document.getElementById('reset').addEventListener('click', () => {
     // Resetting the editor
     editor.setValue('');
     editor.clearHistory();
-    editor.setOption('mode',inputMode);
+    editor.setOption('mode','text/plain');
+    CodeMirror.autoLoadMode(editor, null);
     editor.setOption('theme','darcula');
     editor.setOption('autoCloseBrackets', false);
     editor.setOption('matchBrackets', false);
