@@ -8,8 +8,8 @@ let selectedTheme = 'darcula';  // by default 'darcula' theme
 // -------------------------------------------------
 
 // creating doc elements
-let themeLinkTag = document.createElement('link');
-let modeScriptTag = document.createElement('script');
+const themeLinkTag = document.createElement('link');
+const modeScriptTag = document.createElement('script');
 
 // Set the attributes for the link element
 themeLinkTag.rel = 'stylesheet';
@@ -25,7 +25,7 @@ document.head.appendChild(themeLinkTag);
 // -------------------------------------------------
 //      Linking CodeMirror with my textarea
 // -------------------------------------------------
-let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     theme: selectedTheme,
     lineWrapping: true,
     lineNumbers: true,
@@ -112,8 +112,8 @@ const regex = {
 editor.on('change', () => {
 
     // Reading values into variables
-    let code = editor.getValue();
-    let language = selectedMode;    /*  Could directly use `selectedMode`, Just for the sake of readibility */
+    const code = editor.getValue();
+    const language = selectedMode;    /*  Could directly use `selectedMode`, Just for the sake of readibility */
 
     // Checking if the code has any input statements
     if(language != null && regex[language].test(code)){
