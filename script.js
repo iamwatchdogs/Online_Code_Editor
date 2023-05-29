@@ -75,6 +75,10 @@ languageSelect.addEventListener('change', () => {
     // Reading values into variables
     selectedMode = languageSelect.value;
     let codeMirrorMode = `text/x-${selectedMode}`;
+
+    // Adding Additional functionality when a mode is selected
+    editor.setOption('autoCloseBrackets', true);
+    editor.setOption('matchBrackets', true);
   
      // Routing between C, C++, Java & Javascript code highlighting
     if (selectedMode === 'c' || selectedMode === 'cpp' || selectedMode === 'java') {
