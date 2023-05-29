@@ -27,8 +27,6 @@ header{
     font-size: 1.8rem;
     font-weight: bolder;
     font-family: 'Cherry Bomb One', cursive;
-    color: black;
-    -webkit-text-stroke: 0.05px whitesmoke;
 }
 footer {
     font-size: 1.25rem;
@@ -234,4 +232,15 @@ button:hover {
 #input:hover::-webkit-scrollbar-thumb:active,
 #output:hover::-webkit-scrollbar-thumb:active{
     background:rgb(68, 133, 255);
+}
+header h1 a{
+    color: black;
+    -webkit-text-stroke: 0.05px whitesmoke;
+    transition: text-shadow .5s ease-in-out;
+}
+header h1 a:hover{
+    color: black;
+    text-shadow: 0px 0px 30px #ffffff7a,
+                -4px 3px 15px #18F0FC,
+                5px -4px 15px #f48198;
 }
