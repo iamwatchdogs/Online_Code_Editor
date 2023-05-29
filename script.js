@@ -2,6 +2,7 @@
 //                Global Variables
 // -------------------------------------------------
 let selectedTheme = 'darcula';  // by default 'darcula' theme 
+let selectedMode = null;
 
 // -------------------------------------------------
 //               Adding doc elements
