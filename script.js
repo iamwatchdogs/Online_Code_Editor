@@ -1,7 +1,6 @@
 // -------------------------------------------------
 //                Global Variables
 // -------------------------------------------------
-let selectedMode = null;        // by default no particular lanugage selected
 let selectedTheme = 'darcula';  // by default 'darcula' theme 
 
 // -------------------------------------------------
@@ -22,7 +21,6 @@ modeScriptTag.type = 'text/javascript';
 
 // Appending the doc elements to the head of the document
 document.head.appendChild(themeLinkTag);
-document.head.appendChild(modeScriptTag);
 
 // -------------------------------------------------
 //      Linking CodeMirror with my textarea
@@ -62,18 +60,20 @@ const languageSelect = document.getElementById('language');
 // Overriding the default modeURL of CodeMirror for this project
 CodeMirror.modeURL = 'dependencies/codemirror-5.65.13/mode/%N/%N.js';
 
+// Event Listener for changing theme
 themeSelect.addEventListener('change', () => {
-
+    
     // Reading values into variables
     selectedTheme = themeSelect.value;
 
     // dynamically assigning the required css for theme
     themeLinkTag.href = `dependencies/codemirror-5.65.13/theme/${selectedTheme}.css`;
-
+    
     // Setting the theme of the editor
     editor.setOption('theme', selectedTheme);   
 });
 
+// Event Listener for changing mode (or) language-based code highlighting
 languageSelect.addEventListener('change', () => {
 
     // Reading values into variables
@@ -84,19 +84,12 @@ languageSelect.addEventListener('change', () => {
     editor.setOption('matchBrackets', true);
   
      // Routing between C, C++, Java & Javascript code highlighting
-    const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;
-    const codeMirrormode = CodeMirror.findModeByExtension(selectedMode).mode;
-  
-    // Dynamically load the script only if it hasn't been loaded before
-    const scriptSrc = `dependencies/codemirror-5.65.13/mode/${codeMirrormode}/${codeMirrormode}.js`;
-
-    // Replace the src attribute of the existing script tag
-    modeScriptTag.setAttribute('src', scriptSrc);
+    const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;   /*  ex: "text/x-javascript" */
+    const codeMirrormode = CodeMirror.findModeByExtension(selectedMode).mode;   /*  ex: "javascript"        */
     
     // Script has already been loaded, update the mode directly
     editor.setOption('mode', codeMirrorMIME);
     CodeMirror.autoLoadMode(editor, codeMirrormode);
-
 });
 
 // -------------------------------------------------
@@ -120,7 +113,7 @@ editor.on('change', () => {
 
     // Reading values into variables
     let code = editor.getValue();
-    let language = selectedMode;
+    let language = selectedMode;    /*  Could directly use `selectedMode`, Just for the sake of readibility */
 
     // Checking if the code has any input statements
     if(language != null && regex[language].test(code)){
@@ -210,7 +203,6 @@ document.getElementById('reset').addEventListener('click', () => {
 
     // Resetting the theme source files
     themeLinkTag.href = 'dependencies/codemirror-5.65.13/theme/darcula.css';
-    modeScriptTag.src = ' ';
 
     // --- Resetting the editor ---
     // Clearing previous session data
