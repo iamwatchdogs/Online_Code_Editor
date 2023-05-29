@@ -94,6 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     header('Content-Type: application/json');
-    echo json_encode($responseData);
+    echo json_encode($responseData);            /*  Returning the Response   */
 }
 ?>

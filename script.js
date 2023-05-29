@@ -48,15 +48,18 @@ let editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
         fullLines: true
     }
 });
-editor.setSize('70vw', '65vh');
+editor.setSize('70vw', '65vh');         /*  Setting height and Width of the code editor   */
 
 
 // -------------------------------------------------
 //          Dynamically changing values
 // -------------------------------------------------
 
+// Creating DOM reference object to access theme & language
 const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
+
+// Overriding the default modeURL of CodeMirror for this project
 CodeMirror.modeURL = 'dependencies/codemirror-5.65.13/mode/%N/%N.js';
 
 themeSelect.addEventListener('change', () => {
@@ -114,6 +117,8 @@ const regex = {
 
 // Adding event listener to toggle input textarea based on the presense of input statements
 editor.on('change', () => {
+
+    // Reading values into variables
     let code = editor.getValue();
     let language = selectedMode;
 
@@ -139,28 +144,36 @@ const validate = () => {
 };
 
 // -------------------------------------------------
-//          Handling POST Request
+//          Handling POST Request ( AJAX )
 // -------------------------------------------------
 
+// Created an Reference DOM object for output Textarea 
 const outputTextArea = document.getElementById('output');
 
 document.getElementById('code').addEventListener('submit', (event) => {
+    // Prevents the default behavior
     event.preventDefault();
 
+    // Resetting the output Textarea
     document.getElementById('output').value = '';
 
+    // Collecting Data from the form
     const formData = new FormData(event.target);
     const requestData = {};
 
+    // Storing the data into request Javascript Object
     formData.forEach(function(value, key) {
         requestData[key] = value;
     });
 
+    // Creating an instance of XHR object for async communication
     const xhr = new XMLHttpRequest();
     
+    // Setting the request method and the request URL
     xhr.open('POST', 'core.php', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     
+    // Handling Request & Response using event handler when the Request is done.
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
@@ -199,12 +212,19 @@ document.getElementById('reset').addEventListener('click', () => {
     themeLinkTag.href = 'dependencies/codemirror-5.65.13/theme/darcula.css';
     modeScriptTag.src = ' ';
 
-    // Resetting the editor
+    // --- Resetting the editor ---
+    // Clearing previous session data
     editor.setValue('');
     editor.clearHistory();
+
+    // Resetting the mode to default
     editor.setOption('mode','text/plain');
     CodeMirror.autoLoadMode(editor, null);
+    
+    // Resetting the theme to default
     editor.setOption('theme','darcula');
+
+    // Turning of the functionalities
     editor.setOption('autoCloseBrackets', false);
     editor.setOption('matchBrackets', false);
 });
