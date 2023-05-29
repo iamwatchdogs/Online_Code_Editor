@@ -204,3 +204,14 @@ document.getElementById('reset').addEventListener('click', () => {
     editor.setOption('autoCloseBrackets', false);
     editor.setOption('matchBrackets', false);
 });
+
+// -------------------------------------------------
+//          Notice for GitHub Pages
+// -------------------------------------------------
+
+document.onload = () => {
+
+    if(/github.io/.test(document.URL)){
+        setTimeout( confirm("Note: GitHub Pages build only for static web pages. PHP will no work in this environment !!!..."), 3000);
+    }
+};
