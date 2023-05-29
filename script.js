@@ -9,15 +9,11 @@ let selectedTheme = 'darcula';  // by default 'darcula' theme
 
 // creating doc elements
 const themeLinkTag = document.createElement('link');
-const modeScriptTag = document.createElement('script');
 
 // Set the attributes for the link element
 themeLinkTag.rel = 'stylesheet';
 themeLinkTag.type = 'text/css';
 themeLinkTag.href = `dependencies/codemirror-5.65.13/theme/${selectedTheme}.css`;
-
-// Set the attributes for the script element
-modeScriptTag.type = 'text/javascript';
 
 // Appending the doc elements to the head of the document
 document.head.appendChild(themeLinkTag);
