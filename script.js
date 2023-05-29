@@ -125,18 +125,6 @@ editor.on('change', () => {
 });
 
 // -------------------------------------------------
-//          Validating POST Request
-// -------------------------------------------------
-
-const validate = () => {
-    if(inputEnabled && document.getElementById('input').value === ''){
-        alert('Please enter some input');
-        return false;
-    }
-    return true;
-};
-
-// -------------------------------------------------
 //          Handling POST Request ( AJAX )
 // -------------------------------------------------
 
