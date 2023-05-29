@@ -201,3 +201,30 @@ document.getElementById('code').addEventListener('submit', (event) => {
 
     xhr.send(JSON.stringify(requestData));
 });
+
+// -------------------------------------------------
+//          Customizing the reset button
+// -------------------------------------------------
+
+document.getElementById('reset').addEventListener('click', () => {
+
+    // DOM variable
+    const inputTextArea = document.getElementById('input');
+    const outputTextArea = document.getElementById('output');
+
+    // Resetting the input and output text areas
+    inputTextArea.value = '';
+    outputTextArea.value = '';
+
+    // Resetting the theme source files
+    themeLinkTag.href = 'dependencies/codemirror-5.65.13/theme/darcula.css';
+    modeScriptTag.src = ' ';
+
+    // Resetting the editor
+    editor.setValue('');
+    editor.clearHistory();
+    editor.setOption('mode',inputMode);
+    editor.setOption('theme','darcula');
+    editor.setOption('autoCloseBrackets', false);
+    editor.setOption('matchBrackets', false);
+});
