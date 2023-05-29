@@ -174,7 +174,6 @@ document.getElementById('code').addEventListener('submit', (event) => {
         requestData[key] = value;
     });
 
-    
     const xhr = new XMLHttpRequest();
     
     xhr.open('POST', 'core.php', true);
@@ -185,11 +184,14 @@ document.getElementById('code').addEventListener('submit', (event) => {
             if (xhr.status === 200) {
                 // Handle the successful response
                 const response = JSON.parse(xhr.responseText);
-                outputTextArea.style.color ='white';
-                outputTextArea.value = response['output'];
+                outputTextArea.style.color = (response['output'] !== '' || response['error'] === '') ? 'white' : 'red';
+                outputTextArea.value = (response['output'] !== '' || response['error'] === '') ? response['output'] : response['error'];
             } else {
                 // Handle the error response
-                console.error('Request failed with status ' + xhr.status);
+                const errorLog = `Request failed with status ${xhr.status}.`;
+                console.error(errorLog);
+                outputTextArea.style.color = 'red';
+                outputTextArea.style.value = errorLog;
             }
         }
     };
