@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 body {
-    background: url('https://wp-mktg.prod.getty1.net/istockcontentredesign/wp-content/uploads/sites/5/bfi_thumb/2021_iStock_LatestBGTrends_Hero.jpg-37hacs394rfnlye6q17b1otbsizghpa9fhni65z6lb6gploak.jpeg') no-repeat;
+    background: url('src/background-img.jpeg') no-repeat;
     background-size: cover;
 }
 a {
