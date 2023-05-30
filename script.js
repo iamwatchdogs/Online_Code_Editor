@@ -207,8 +207,29 @@ document.getElementById('reset').addEventListener('click', () => {
 });
 
 // -------------------------------------------------
-//           Notice for GitHub Pages 
+//       Notice for GitHub Pages & API Checkup
 // -------------------------------------------------
+
+// Function that checks for status of CodeX API POST Requests
+const checkForApiWorkingStatus = () => {
+    fetch('https://api.codex.jaagrav.in', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: 'print(\'asdas\')', language: 'py', input: '' }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error('POST request failed. Status:', response.status);
+        alert(`CodeX API failed with status code: ${response.status}. Try refreshing later...`);
+        document.getElementById('run').disabled = true;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
 window.onload = () => {
     if (/github.io/.test(document.URL)) {
@@ -216,5 +237,7 @@ window.onload = () => {
             alert("Note: GitHub Pages build only for static web pages. PHP will not work in this environment!");
             document.getElementById('run').disabled = true;
         }, 3000);
-    }  
+    } else {
+        setTimeout( checkForApiWorkingStatus(), 5000 );
+    }
 };
