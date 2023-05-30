@@ -207,12 +207,14 @@ document.getElementById('reset').addEventListener('click', () => {
 });
 
 // -------------------------------------------------
-//          Notice for GitHub Pages
+//           Notice for GitHub Pages 
 // -------------------------------------------------
 
-document.onload = () => {
-
-    if(/github.io/.test(document.URL)){
-        setTimeout( confirm("Note: GitHub Pages build only for static web pages. PHP will no work in this environment !!!..."), 3000);
-    }
+window.onload = () => {
+    if (/github.io/.test(document.URL)) {
+        setTimeout(() => {
+            alert("Note: GitHub Pages build only for static web pages. PHP will not work in this environment!");
+            document.getElementById('run').disabled = true;
+        }, 3000);
+    }  
 };
