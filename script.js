@@ -157,8 +157,8 @@ document.getElementById('code').addEventListener('submit', (event) => {
             if (xhr.status === 200) {
                 // Handle the successful response
                 const response = JSON.parse(xhr.responseText);
-                outputTextArea.style.color = (response['output'] !== '' || response['error'] === '') ? 'white' : 'red';
-                outputTextArea.value = (response['output'] !== '' || response['error'] === '') ? response['output'] : response['error'];
+                outputTextArea.style.color = (response['output'] !== undefined || response['error'] === '') ? 'white' : 'red';
+                outputTextArea.value = (response['output'] !== undefined || response['error'] === '') ? response['output'] : response['error'];
             } else {
                 // Handle the error response
                 const errorLog = `Request failed with status ${xhr.status}.`;
@@ -207,12 +207,37 @@ document.getElementById('reset').addEventListener('click', () => {
 });
 
 // -------------------------------------------------
-//          Notice for GitHub Pages
+//       Notice for GitHub Pages & API Checkup
 // -------------------------------------------------
 
-document.onload = () => {
+// Function that checks for status of CodeX API POST Requests
+const checkForApiWorkingStatus = () => {
+    fetch('https://api.codex.jaagrav.in', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: 'print(\'asdas\')', language: 'py', input: '' }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error('POST request failed. Status:', response.status);
+        alert(`CodeX API failed with status code: ${response.status}. Try refreshing later...`);
+        document.getElementById('run').disabled = true;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
-    if(/github.io/.test(document.URL)){
-        setTimeout( confirm("Note: GitHub Pages build only for static web pages. PHP will no work in this environment !!!..."), 3000);
+window.onload = () => {
+    if (/github.io/.test(document.URL)) {
+        setTimeout(() => {
+            alert("Note: GitHub Pages build only for static web pages. PHP will not work in this environment!");
+            document.getElementById('run').disabled = true;
+        }, 3000);
+    } else {
+        setTimeout( checkForApiWorkingStatus(), 5000 );
     }
 };

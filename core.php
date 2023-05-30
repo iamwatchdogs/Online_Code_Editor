@@ -3,31 +3,34 @@
 // For handling`POST` Request 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Retrieve the raw POST data
-    $postData = file_get_contents('php://input');
+    // Defining error stack
+    $_ERROR_STACK = array();
 
+    // Retrieve the raw POST data
+    if(!isset($_POST['code'])){
+        $postData = file_get_contents('php://input');
+    }
     // Check if the POST data is not empty
-    if (!empty($postData)) {
+    if (isset($postData) && !empty($postData)) {
 
         // Decode the JSON data
         $_POST = json_decode($postData, true);
 
         // Check if the POST data is valid JSON
         if($_POST === null) {
-            $_POST['error'] = 'Server Error: Failed to decode JSON data (core.php:Line No.13)';  
+            // Error Log
+            $failed_request_decoding_log = 'Server Error: Failed to decode JSON data (core.php:Line No.13)';  
+
+            // Adding to the error stack
+            array_push($_ERROR_STACK, $failed_request_decoding_log);
         }
 
     } else if(!isset($_POST['code'])) {
-
         // Error Log
         $fetch_error_log = 'Server Error: Failed to fetch the data (script.js:Line No.199|core.php:Line No.13)';
 
-        // Appending to existing log
-        if($_POST['error'] === '') {
-            $_POST['error'] = $fetch_error_log;
-        } else {
-            $_POST['error'] = $_POST['error'] . ' | ' . $fetch_error_log;
-        }
+        // Adding to the error stack
+        array_push($_ERROR_STACK, $fetch_error_log);
     }
     
     // if there is no input parameter in POST request, we'll pass out empty string.
@@ -68,12 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Error Log
         $curl_error_log = 'Server Error: ' . curl_error($curl) . ' (core.php:Line No.44-63)';
 
-        // Appending to existing log
-        if($_POST['error'] === '') {
-            $_POST['error'] = $curl_error_log;
-        } else {
-            $_POST['error'] = $_POST['error'] . ' | ' . $curl_error_log;
-        }
+        // Adding to the error stack
+        array_push($_ERROR_STACK, $curl_error_log);
     }
     
     // Safely closing cURL connection.
@@ -86,12 +85,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($responseData !== null) {
         $responseData['input_code'] = $input_code;
     } else { 
+        // Error Log
         $respose_decode_error_log = 'Server Error: Failed to decode response to JSON format (core.php:Line No.83)';
-        $responseData = array(
-            'input_code' => $_POST['code'],
-            'error' => ($_POST['error'] === '') ? $respose_decode_error_log : $_POST['error'] . ' | ' . $respose_decode_error_log
-        );
+
+        // Adding to the error stack
+        array_push($_ERROR_STACK, $respose_decode_error_log);
     }
+
+    // Checking for CodeX API's server failure
+    if(isset($responseData['status']) && $responseData['status'] !== 200) {
+
+        // Error Log
+        $codex_api_error_log = 'Server Error: API Request failed with status code: ' . $responseData['status'] . ' (core.php:Line No.51)';
+
+        // Adding to the error stack
+        array_push($_ERROR_STACK, $codex_api_error_log);
+    } 
+
+    // Appending all the Error Log's to response
+    $reducedErrorLog = array_reduce($_ERROR_STACK, function($errorLog1,$errorLog2) { return $errorLog1 . ' | ' . $errorLog2; }, 'Error Log(s):');
+    $responseData['error'] = (isset($responseData['error']) && $responseData['error'] !== '') ? $reducedErrorLog . ' | ' . $responseData['error'] : $reducedErrorLog;
 
     header('Content-Type: application/json');
     echo json_encode($responseData);            /*  Returning the Response   */
