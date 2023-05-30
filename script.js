@@ -157,8 +157,8 @@ document.getElementById('code').addEventListener('submit', (event) => {
             if (xhr.status === 200) {
                 // Handle the successful response
                 const response = JSON.parse(xhr.responseText);
-                outputTextArea.style.color = (response['output'] !== '' || response['error'] === '') ? 'white' : 'red';
-                outputTextArea.value = (response['output'] !== '' || response['error'] === '') ? response['output'] : response['error'];
+                outputTextArea.style.color = (response['output'] !== undefined || response['error'] === '') ? 'white' : 'red';
+                outputTextArea.value = (response['output'] !== undefined || response['error'] === '') ? response['output'] : response['error'];
             } else {
                 // Handle the error response
                 const errorLog = `Request failed with status ${xhr.status}.`;
