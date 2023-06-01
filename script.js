@@ -54,7 +54,8 @@ editor.setSize('70vw', '65vh');         /*  Setting height and Width of the code
 const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
 
-// Created an Reference DOM object for output Textarea 
+// Created an Reference DOM object for input & output Textarea 
+const inputTextArea = document.getElementById('input');
 const outputTextArea = document.getElementById('output');
 
 // Overriding the default modeURL of CodeMirror for this project
@@ -123,10 +124,10 @@ editor.on('change', () => {
 
     // Checking if the code has any input statements
     if(language != null && regex[language].test(code)){
-        document.getElementById('input').disabled = false;
+        inputTextArea.disabled = false;
     } else {
-        document.getElementById('input').disabled = true;
-        document.getElementById('input').value = '';
+        inputTextArea.disabled = true;
+        inputTextArea.value = '';
     }
 });
 
@@ -189,9 +190,6 @@ document.getElementById('code').addEventListener('submit', (event) => {
 // -------------------------------------------------
 
 document.getElementById('reset').addEventListener('click', () => {
-
-    // DOM variable
-    const inputTextArea = document.getElementById('input');
 
     // Resetting the input and output text areas
     inputTextArea.value = '';
