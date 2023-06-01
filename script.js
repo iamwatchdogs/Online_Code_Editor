@@ -54,6 +54,9 @@ editor.setSize('70vw', '65vh');         /*  Setting height and Width of the code
 const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
 
+// Created an Reference DOM object for output Textarea 
+const outputTextArea = document.getElementById('output');
+
 // Overriding the default modeURL of CodeMirror for this project
 CodeMirror.modeURL = 'dependencies/codemirror-5.65.13/mode/%N/%N.js';
 
@@ -76,9 +79,11 @@ languageSelect.addEventListener('change', () => {
     // Reading values into variables
     selectedMode = languageSelect.value;
 
-    // Adding Additional functionality when a mode is selected
-    editor.setOption('autoCloseBrackets', true);
-    editor.setOption('matchBrackets', true);
+    // Adding Additional functionality when a mode is selected only if they aren't activated before
+    if( !(editor.getOption('autoCloseBrackets') && editor.getOption('matchBrackets')) ) {
+        editor.setOption('autoCloseBrackets', true);
+        editor.setOption('matchBrackets', true);
+    }
   
      // Routing between C, C++, Java & Javascript code highlighting
     const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;   /*  ex: "text/x-javascript" */
@@ -87,6 +92,10 @@ languageSelect.addEventListener('change', () => {
     // Script has already been loaded, update the mode directly
     editor.setOption('mode', codeMirrorMIME);
     CodeMirror.autoLoadMode(editor, codeMirrormode);
+
+    // Clearing the code editor & output TextArea when changed language
+    editor.setValue('');
+    outputTextArea.value = '';
 });
 
 // -------------------------------------------------
@@ -124,9 +133,6 @@ editor.on('change', () => {
 // -------------------------------------------------
 //          Handling POST Request ( AJAX )
 // -------------------------------------------------
-
-// Created an Reference DOM object for output Textarea 
-const outputTextArea = document.getElementById('output');
 
 document.getElementById('code').addEventListener('submit', (event) => {
     // Prevents the default behavior
@@ -186,7 +192,6 @@ document.getElementById('reset').addEventListener('click', () => {
 
     // DOM variable
     const inputTextArea = document.getElementById('input');
-    const outputTextArea = document.getElementById('output');
 
     // Resetting the input and output text areas
     inputTextArea.value = '';
