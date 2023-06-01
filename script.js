@@ -164,7 +164,6 @@ document.getElementById('code').addEventListener('submit', (event) => {
             if (xhr.status === 200) {
                 // Handle the successful response
                 const response = JSON.parse(xhr.responseText);
-                console.log(response);
                 if(response['output'] !== undefined && response['error'] === ''){
                     outputTextArea.style.color = 'white';
                     outputTextArea.value = response['output'];
