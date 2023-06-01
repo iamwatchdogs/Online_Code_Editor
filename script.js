@@ -125,11 +125,29 @@ editor.on('change', () => {
     // Checking if the code has any input statements
     if(language != null && regex[language].test(code)){
         inputTextArea.disabled = false;
+        inputEnabled = true;
     } else {
         inputTextArea.disabled = true;
         inputTextArea.value = '';
+        inputEnabled = false;
     }
 });
+
+// -------------------------------------------------
+//           Validator for submission
+// -------------------------------------------------
+
+const validator = () => {
+
+    // checking whether user has provided input or not
+    if(inputEnabled && inputTextArea.value === '') {
+        alert('Please enter the required Input');
+        return false;
+    }
+    
+    return true;
+}
+
 
 // -------------------------------------------------
 //          Handling POST Request ( AJAX )
@@ -138,6 +156,11 @@ editor.on('change', () => {
 document.getElementById('code').addEventListener('submit', (event) => {
     // Prevents the default behavior
     event.preventDefault();
+
+    // Validating the submitted form
+    if(!validator()) {
+        return ;
+    }
 
     // Resetting the output Textarea
     document.getElementById('output').value = '';
