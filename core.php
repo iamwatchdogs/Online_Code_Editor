@@ -102,9 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         array_push($_ERROR_STACK, $codex_api_error_log);
     } 
 
-    // Appending all the Error Log's to response
-    $reducedErrorLog = array_reduce($_ERROR_STACK, function($errorLog1,$errorLog2) { return $errorLog1 . ' | ' . $errorLog2; }, 'Error Log(s):');
-    $responseData['error'] = (isset($responseData['error']) && $responseData['error'] !== '') ? $reducedErrorLog . ' | ' . $responseData['error'] : $reducedErrorLog;
+    // Appending all the Error Log's to response if there is an server-side error.
+    if(count($_ERROR_STACK) !== 0) {
+        $reducedErrorLog = array_reduce($_ERROR_STACK, function($errorLog1,$errorLog2) { return $errorLog1 . ' | ' . $errorLog2; }, 'Server-side Error Log(s):\n\n');
+        $responseData['error'] = (isset($responseData['error']) && $responseData['error'] !== '') ? $reducedErrorLog . ' |\n\nResponse Error Log:\n\n' . $responseData['error'] : $reducedErrorLog;
+    }
 
     header('Content-Type: application/json');
     echo json_encode($responseData);            /*  Returning the Response   */
