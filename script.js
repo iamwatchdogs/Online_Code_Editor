@@ -54,6 +54,10 @@ editor.setSize('70vw', '65vh');         /*  Setting height and Width of the code
 const themeSelect = document.getElementById('theme');
 const languageSelect = document.getElementById('language');
 
+// Created an Reference DOM object for input & output Textarea 
+const inputTextArea = document.getElementById('input');
+const outputTextArea = document.getElementById('output');
+
 // Overriding the default modeURL of CodeMirror for this project
 CodeMirror.modeURL = 'dependencies/codemirror-5.65.13/mode/%N/%N.js';
 
@@ -76,9 +80,14 @@ languageSelect.addEventListener('change', () => {
     // Reading values into variables
     selectedMode = languageSelect.value;
 
-    // Adding Additional functionality when a mode is selected
-    editor.setOption('autoCloseBrackets', true);
-    editor.setOption('matchBrackets', true);
+    // Adding Additional functionality when a mode is selected only if they aren't activated before
+    if( !(editor.getOption('autoCloseBrackets') && editor.getOption('matchBrackets')) ) {
+        editor.setOption('autoCloseBrackets', true);
+        editor.setOption('matchBrackets', true);
+    }
+
+    // Enabling "run" button when a lanugage is selected
+    document.getElementById('run').disabled = false;
   
      // Routing between C, C++, Java & Javascript code highlighting
     const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;   /*  ex: "text/x-javascript" */
@@ -87,6 +96,10 @@ languageSelect.addEventListener('change', () => {
     // Script has already been loaded, update the mode directly
     editor.setOption('mode', codeMirrorMIME);
     CodeMirror.autoLoadMode(editor, codeMirrormode);
+
+    // Clearing the code editor & output TextArea when changed language
+    editor.setValue('');
+    outputTextArea.value = '';
 });
 
 // -------------------------------------------------
@@ -114,23 +127,46 @@ editor.on('change', () => {
 
     // Checking if the code has any input statements
     if(language != null && regex[language].test(code)){
-        document.getElementById('input').disabled = false;
+        inputTextArea.disabled = false;
+        inputEnabled = true;
     } else {
-        document.getElementById('input').disabled = true;
-        document.getElementById('input').value = '';
+        inputTextArea.disabled = true;
+        inputTextArea.value = '';
+        inputEnabled = false;
     }
 });
+
+// -------------------------------------------------
+//           Validator for submission
+// -------------------------------------------------
+
+const validator = () => {
+
+    // Checking conditions
+    if(editor.getValue() === '') {                               /* checking whether user has provided required code or not */
+        alert('Please enter the required Code');
+        return false;
+    } else if(inputEnabled && inputTextArea.value === '') {     /* checking whether user has provided input or not */
+        alert('Please enter the required Input');
+        return false;
+    }
+
+    return true;
+}
+
 
 // -------------------------------------------------
 //          Handling POST Request ( AJAX )
 // -------------------------------------------------
 
-// Created an Reference DOM object for output Textarea 
-const outputTextArea = document.getElementById('output');
-
 document.getElementById('code').addEventListener('submit', (event) => {
     // Prevents the default behavior
     event.preventDefault();
+
+    // Validating the submitted form
+    if(!validator()) {
+        return ;
+    }
 
     // Resetting the output Textarea
     document.getElementById('output').value = '';
@@ -157,8 +193,13 @@ document.getElementById('code').addEventListener('submit', (event) => {
             if (xhr.status === 200) {
                 // Handle the successful response
                 const response = JSON.parse(xhr.responseText);
-                outputTextArea.style.color = (response['output'] !== undefined || response['error'] === '') ? 'white' : 'red';
-                outputTextArea.value = (response['output'] !== undefined || response['error'] === '') ? response['output'] : response['error'];
+                if(response['output'] !== undefined && response['error'] === ''){
+                    outputTextArea.style.color = 'white';
+                    outputTextArea.value = response['output'];
+                } else {
+                    outputTextArea.style.color = 'red';
+                    outputTextArea.value = response['error'];
+                }
             } else {
                 // Handle the error response
                 const errorLog = `Request failed with status ${xhr.status}.`;
@@ -178,13 +219,12 @@ document.getElementById('code').addEventListener('submit', (event) => {
 
 document.getElementById('reset').addEventListener('click', () => {
 
-    // DOM variable
-    const inputTextArea = document.getElementById('input');
-    const outputTextArea = document.getElementById('output');
-
     // Resetting the input and output text areas
     inputTextArea.value = '';
     outputTextArea.value = '';
+
+    // Disabling `run` button when resetted.
+    document.getElementById('run').disabled = true;
 
     // Resetting the theme source files
     themeLinkTag.href = 'dependencies/codemirror-5.65.13/theme/darcula.css';
@@ -234,7 +274,7 @@ const checkForApiWorkingStatus = () => {
 window.onload = () => {
     if (/github.io/.test(document.URL)) {
         setTimeout(() => {
-            alert("Note: GitHub Pages build only for static web pages. PHP will not work in this environment!");
+            alert("Note:\nGitHub Pages build only for static web pages. PHP will not work in this environment !!!...\nTry hosting in your Local system.");
             document.getElementById('run').disabled = true;
         }, 3000);
     } else {
