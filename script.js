@@ -240,7 +240,7 @@ const checkForApiWorkingStatus = () => {
 window.onload = () => {
     if (/github.io/.test(document.URL)) {
         setTimeout(() => {
-            alert("Note: GitHub Pages build only for static web pages. PHP will not work in this environment!");
+            alert("Note:\nGitHub Pages build only for static web pages. PHP will not work in this environment !!!...\nTry hosting in your Local system.");
             document.getElementById('run').disabled = true;
         }, 3000);
     } else {
