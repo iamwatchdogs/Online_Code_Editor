@@ -142,8 +142,11 @@ editor.on('change', () => {
 
 const validator = () => {
 
-    // checking whether user has provided input or not
-    if(inputEnabled && inputTextArea.value === '') {
+    // Checking conditions
+    if(editor.getValue() === '') {                               /* checking whether user has provided required code or not */
+        alert('Please enter the required Code');
+        return false;
+    } else if(inputEnabled && inputTextArea.value === '') {     /* checking whether user has provided input or not */
         alert('Please enter the required Input');
         return false;
     }
