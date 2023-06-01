@@ -85,6 +85,9 @@ languageSelect.addEventListener('change', () => {
         editor.setOption('autoCloseBrackets', true);
         editor.setOption('matchBrackets', true);
     }
+
+    // Enabling "run" button when a lanugage is selected
+    document.getElementById('run').disabled = false;
   
      // Routing between C, C++, Java & Javascript code highlighting
     const codeMirrorMIME = CodeMirror.findModeByExtension(selectedMode).mime;   /*  ex: "text/x-javascript" */
@@ -144,7 +147,7 @@ const validator = () => {
         alert('Please enter the required Input');
         return false;
     }
-    
+
     return true;
 }
 
