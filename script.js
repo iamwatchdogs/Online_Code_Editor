@@ -223,6 +223,9 @@ document.getElementById('reset').addEventListener('click', () => {
     inputTextArea.value = '';
     outputTextArea.value = '';
 
+    // Disabling `run` button when resetted.
+    document.getElementById('run').disabled = true;
+
     // Resetting the theme source files
     themeLinkTag.href = 'dependencies/codemirror-5.65.13/theme/darcula.css';
 
