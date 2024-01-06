@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Setting cURL options.
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.codex.jaagrav.in',
+        CURLOPT_URL => 'https://codex-api.fly.dev',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
